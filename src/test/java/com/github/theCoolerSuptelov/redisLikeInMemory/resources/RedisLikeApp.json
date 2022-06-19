@@ -1,0 +1,893 @@
+{
+	"info": {
+		"_postman_id": "cc6735cd-9ced-4aa3-9523-25e7bced2cd7",
+		"name": "OpenAPI definition Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "get Value",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api?key=exercitation nostrud",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "exercitation nostrud",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api?key=exercitation nostrud",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "exercitation nostrud"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "put Array",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": \"dolore velit Ut dolor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api?key=testKey&EX=50",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "testKey",
+									"description": "(Required) "
+								},
+								{
+									"key": "EX",
+									"value": "50"
+								},
+								{
+									"key": "PX",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "EXAT",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "PXAT",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "NX",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "XX",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "KEEPTTL",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"value\": \"dolore velit Ut dolor\",\n  \"expiresAfterSeconds\": 90795339\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api?key=exercitation nostrud&EX=-65198594&PX=-65198594&EXAT=-65198594&PXAT=-65198594&NX=false&XX=false&KEEPTTL=false",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "exercitation nostrud"
+										},
+										{
+											"key": "EX",
+											"value": "-65198594"
+										},
+										{
+											"key": "PX",
+											"value": "-65198594"
+										},
+										{
+											"key": "EXAT",
+											"value": "-65198594"
+										},
+										{
+											"key": "PXAT",
+											"value": "-65198594"
+										},
+										{
+											"key": "NX",
+											"value": "false"
+										},
+										{
+											"key": "XX",
+											"value": "false"
+										},
+										{
+											"key": "KEEPTTL",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "exercitation nostrud"
+						}
+					]
+				},
+				{
+					"name": "put Value String",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": \"dolore velit Ut dolor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api?EX=50&key=testKeySingleValue",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "EX",
+									"value": "50"
+								},
+								{
+									"key": "PX",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "EXAT",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "PXAT",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "NX",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "XX",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "KEEPTTL",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "key",
+									"value": "testKeySingleValue"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"value\": \"dolore velit Ut dolor\",\n  \"expiresAfterSeconds\": 90795339\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api?key=exercitation nostrud&EX=-65198594&PX=-65198594&EXAT=-65198594&PXAT=-65198594&NX=false&XX=false&KEEPTTL=false",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "exercitation nostrud"
+										},
+										{
+											"key": "EX",
+											"value": "-65198594"
+										},
+										{
+											"key": "PX",
+											"value": "-65198594"
+										},
+										{
+											"key": "EXAT",
+											"value": "-65198594"
+										},
+										{
+											"key": "PXAT",
+											"value": "-65198594"
+										},
+										{
+											"key": "NX",
+											"value": "false"
+										},
+										{
+											"key": "XX",
+											"value": "false"
+										},
+										{
+											"key": "KEEPTTL",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "exercitation nostrud"
+						}
+					]
+				},
+				{
+					"name": "put Value Map",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": [\"ka\":1,\"sl\":2,\"oie\":3, \"slsl\":4,\"zxc\":5,\"asda\":6]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api?EX=50&key=testKeyWaba",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "EX",
+									"value": "50"
+								},
+								{
+									"key": "PX",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "EXAT",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "PXAT",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "NX",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "XX",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "KEEPTTL",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "key",
+									"value": "testKeyWaba"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"value\": \"dolore velit Ut dolor\",\n  \"expiresAfterSeconds\": 90795339\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api?key=exercitation nostrud&EX=-65198594&PX=-65198594&EXAT=-65198594&PXAT=-65198594&NX=false&XX=false&KEEPTTL=false",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "exercitation nostrud"
+										},
+										{
+											"key": "EX",
+											"value": "-65198594"
+										},
+										{
+											"key": "PX",
+											"value": "-65198594"
+										},
+										{
+											"key": "EXAT",
+											"value": "-65198594"
+										},
+										{
+											"key": "PXAT",
+											"value": "-65198594"
+										},
+										{
+											"key": "NX",
+											"value": "false"
+										},
+										{
+											"key": "XX",
+											"value": "false"
+										},
+										{
+											"key": "KEEPTTL",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "exercitation nostrud"
+						}
+					]
+				},
+				{
+					"name": "put Value Map As user athorization",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": [\"ka\":1,\"sl\":2,\"oie\":3, \"slsl\":4,\"zxc\":5,\"asda\":6]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api?EX=50&key=testKeyWaba",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "EX",
+									"value": "50"
+								},
+								{
+									"key": "PX",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "EXAT",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "PXAT",
+									"value": "-65198594",
+									"disabled": true
+								},
+								{
+									"key": "NX",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "XX",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "KEEPTTL",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "key",
+									"value": "testKeyWaba"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"value\": \"dolore velit Ut dolor\",\n  \"expiresAfterSeconds\": 90795339\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api?key=exercitation nostrud&EX=-65198594&PX=-65198594&EXAT=-65198594&PXAT=-65198594&NX=false&XX=false&KEEPTTL=false",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "exercitation nostrud"
+										},
+										{
+											"key": "EX",
+											"value": "-65198594"
+										},
+										{
+											"key": "PX",
+											"value": "-65198594"
+										},
+										{
+											"key": "EXAT",
+											"value": "-65198594"
+										},
+										{
+											"key": "PXAT",
+											"value": "-65198594"
+										},
+										{
+											"key": "NX",
+											"value": "false"
+										},
+										{
+											"key": "XX",
+											"value": "false"
+										},
+										{
+											"key": "KEEPTTL",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "exercitation nostrud"
+						}
+					]
+				},
+				{
+					"name": "delete Value",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api?keyList=mollit cillum eiusmod &keyList=enim laboris",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "keyList",
+									"value": "mollit cillum eiusmod ",
+									"description": "(Required) "
+								},
+								{
+									"key": "keyList",
+									"value": "enim laboris",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api?keyList=et in cillum&keyList=aliqua ullamco proident nisi",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api"
+									],
+									"query": [
+										{
+											"key": "keyList",
+											"value": "et in cillum"
+										},
+										{
+											"key": "keyList",
+											"value": "aliqua ullamco proident nisi"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Keys",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/keys?pattern=exercitation nostrud",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"keys"
+							],
+							"query": [
+								{
+									"key": "pattern",
+									"value": "exercitation nostrud"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/keys?pattern=exercitation nostrud",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"keys"
+									],
+									"query": [
+										{
+											"key": "pattern",
+											"value": "exercitation nostrud"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "actuator_shutDown_saveCachedData",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
