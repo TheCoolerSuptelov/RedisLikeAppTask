@@ -132,11 +132,6 @@ class RedisLikeSpringAppApplicationTests {
 		assertFalse(keyPatternResponce.getContentAsString().contains("testKey"));
 	}
 
-    @Test
-    public void defaultRestApiPipeline() throws Exception {
-
-    }
-
 	@Test
 	public void deleteExistedKey() throws Exception {
 		putStringAsCachedValue();
