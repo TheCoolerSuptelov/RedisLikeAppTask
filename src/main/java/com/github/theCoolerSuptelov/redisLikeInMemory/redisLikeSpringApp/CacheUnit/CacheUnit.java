@@ -10,8 +10,6 @@ import java.util.concurrent.TimeUnit;
  * */
 public class CacheUnit implements Serializable {
     private Long expiresAtMilliseconds;
-    private Long timeToLive = 60l;
-    private TimeUnit timeUnitTimeToLive = TimeUnit.SECONDS;
     private Object value;
 
 

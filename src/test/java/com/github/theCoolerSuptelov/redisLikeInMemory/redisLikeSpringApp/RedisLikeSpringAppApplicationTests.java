@@ -1,4 +1,5 @@
 package com.github.theCoolerSuptelov.redisLikeInMemory.redisLikeSpringApp;
+
 import com.github.theCoolerSuptelov.redisLikeInMemory.redisLikeSpringApp.Services.CacheImplService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,48 +18,47 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest
 @AutoConfigureMockMvc
 class RedisLikeSpringAppApplicationTests {
-	@Autowired
-	private CacheImplService cacheImplService;
+    @Autowired
+    private final CacheImplService cacheImplService;
 
-	@Autowired
-	private WebApplicationContext webAppContext;
+    @Autowired
+    private final WebApplicationContext webAppContext;
 
-	private MockMvc mockRedisLikeController;
+    private MockMvc mockRedisLikeController;
 
-	public RedisLikeSpringAppApplicationTests(@Autowired CacheImplService cacheImplService,
-											  @Autowired WebApplicationContext webAppContext,
-											  @Autowired MockMvc mockRedisLikeController) {
-		this.cacheImplService = cacheImplService;
-		this.webAppContext = webAppContext;
-		this.mockRedisLikeController = mockRedisLikeController;
-		setupMockWithSecurityContext();
-	}
+    public RedisLikeSpringAppApplicationTests(@Autowired CacheImplService cacheImplService,
+                                              @Autowired WebApplicationContext webAppContext,
+                                              @Autowired MockMvc mockRedisLikeController) {
+        this.cacheImplService = cacheImplService;
+        this.webAppContext = webAppContext;
+        this.mockRedisLikeController = mockRedisLikeController;
+        setupMockWithSecurityContext();
+    }
 
-	public void setupMockWithSecurityContext(){
-		mockRedisLikeController =	MockMvcBuilders
-				.webAppContextSetup(webAppContext)
-				.apply(SecurityMockMvcConfigurers.springSecurity())
-				.build();
-	}
+    public void setupMockWithSecurityContext() {
+        mockRedisLikeController = MockMvcBuilders
+                .webAppContextSetup(webAppContext)
+                .apply(SecurityMockMvcConfigurers.springSecurity())
+                .build();
+    }
+
+    @Test
+    public void putStringAsCachedValue() throws Exception {
+        var postResponce = mockRedisLikeController
+                .perform(
+                        post("/api?key=testKey&EX=50").with(user("admin").roles("ADMIN"))
+                                .content("{\"value\": [\"JustString\"]}")
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                )
+                .andReturn()
+                .getResponse();
+
+        assertEquals(200, postResponce.getStatus());
+        assertEquals("OK", postResponce.getContentAsString());
+    }
 
 	@Test
-	public void defaultRestApiPipeline() throws Exception {
-
-		getBeforePut();
-
-
-		var postResponce = mockRedisLikeController
-				.perform(
-						post("/api?key=testKey&EX=50").with(user("admin").roles("ADMIN"))
-								.content("{\"value\": [\"JustString\"]}")
-								.contentType(MediaType.APPLICATION_JSON_VALUE)
-				)
-				.andReturn()
-				.getResponse();
-
-		assertEquals(200, postResponce.getStatus());
-		assertEquals("OK",postResponce.getContentAsString());
-
+	public void putKeyValueCollectionAsCachedValue() throws Exception {
 		var postMapResponce = mockRedisLikeController
 				.perform(
 						post("/api?key=mapKey&EX=50").with(user("admin").roles("ADMIN"))
@@ -69,8 +69,10 @@ class RedisLikeSpringAppApplicationTests {
 				.getResponse();
 
 		assertEquals(200, postMapResponce.getStatus());
-		assertEquals("OK",postMapResponce.getContentAsString());
-
+		assertEquals("OK", postMapResponce.getContentAsString());
+	}
+	@Test
+	public void putListCollectionAsCachedValue() throws Exception {
 		var postListResponce = mockRedisLikeController
 				.perform(
 						post("/api?key=listKey&EX=50").with(user("admin").roles("ADMIN"))
@@ -81,7 +83,11 @@ class RedisLikeSpringAppApplicationTests {
 				.getResponse();
 
 		assertEquals(200, postListResponce.getStatus());
-		assertEquals("OK",postListResponce.getContentAsString());
+		assertEquals("OK", postListResponce.getContentAsString());
+	}
+
+	@Test
+	public void addCachedValueCanOnlyAdmin() throws Exception {
 		var postResponceByUser = mockRedisLikeController
 				.perform(
 						post("/api?key=testKeyAsUser&EX=50").with(user("user").roles("USER"))
@@ -92,27 +98,48 @@ class RedisLikeSpringAppApplicationTests {
 				.getResponse();
 
 		assertEquals(403, postResponceByUser.getStatus());
+	}
 
+	@Test
+	public void getCachedValue() throws Exception {
+		putStringAsCachedValue();
 		var getResponceAfterPostRequest = mockRedisLikeController
 				.perform(
 						get("/api?key=testKey").with(user("admin")))
 				.andReturn()
 				.getResponse();
 		assertTrue(getResponceAfterPostRequest.getContentAsString().contains("JustString"));
+	}
 
+	@Test
+	public void optionsStrictNameSearch() throws Exception {
+		putStringAsCachedValue();
 		var keysResponce = mockRedisLikeController
 				.perform(get("/api/keys?key=testKey").with(user("admin")))
 				.andReturn()
 				.getResponse();
-		assertEquals(200,keysResponce.getStatus());
+		assertEquals(200, keysResponce.getStatus());
 		assertTrue(keysResponce.getContentAsString().contains("testKey"));
+	}
 
+	@Test
+	public void optionsFindKeyByRegExp() throws Exception {
+		putStringAsCachedValue();
 		var keyPatternResponce = mockRedisLikeController
 				.perform(get("/api/keys?pattern=testKey%").with(user("admin")))
 				.andReturn()
 				.getResponse();
 		assertFalse(keyPatternResponce.getContentAsString().contains("testKey"));
+	}
 
+    @Test
+    public void defaultRestApiPipeline() throws Exception {
+
+    }
+
+	@Test
+	public void deleteExistedKey() throws Exception {
+		putStringAsCachedValue();
 		var deleteKey = mockRedisLikeController
 				.perform(delete("/api?key=testKey").with(user("admin").roles("ADMIN")))
 				.andReturn()
@@ -120,16 +147,17 @@ class RedisLikeSpringAppApplicationTests {
 		assertEquals("1", deleteKey.getContentAsString());
 	}
 
-	private void getBeforePut() throws Exception {
-		var responseBeforePostKeyIsEmpty = mockRedisLikeController
-				.perform(
-						get("/api?key=testKey").with(user("admin")))
-				.andReturn()
-				.getResponse();
+    @Test
+    private void getNonexistedKey() throws Exception {
+        var responseBeforePostKeyIsEmpty = mockRedisLikeController
+                .perform(
+                        get("/api?key=testKey").with(user("admin")))
+                .andReturn()
+                .getResponse();
 
-		assertEquals(200, responseBeforePostKeyIsEmpty.getStatus());
-		assertEquals(0,responseBeforePostKeyIsEmpty.getContentLength());
-	}
+        assertEquals(200, responseBeforePostKeyIsEmpty.getStatus());
+        assertEquals(0, responseBeforePostKeyIsEmpty.getContentLength());
+    }
 
 
 }

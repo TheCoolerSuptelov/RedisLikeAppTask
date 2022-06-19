@@ -3,8 +3,8 @@ package com.github.theCoolerSuptelov.redisLikeInMemory.redisLikeSpringApp.Servic
 import com.github.theCoolerSuptelov.redisLikeInMemory.redisLikeSpringApp.CacheUnit.CacheUnit;
 import com.github.theCoolerSuptelov.redisLikeInMemory.redisLikeSpringApp.CacheUnit.CachedValueDTO;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import static java.lang.Boolean.TRUE;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -17,32 +17,30 @@ import java.util.stream.Collectors;
 @Service
 public class CacheImplService {
     public static final String OK = "OK";
+    private final long DEFAULTTTLMILLIS = 60_000;
+    @Value("${defaultSavePathCacheImpl}")
+    private String savePath;
+    private HashMap<String, CacheUnit> cache = new HashMap<>();
 
     public String getSavePath() {
-      return System.getProperty("java.io.tmpdir") +"/RedisLikeApp_cacheHm";
+        return System.getProperty("java.io.tmpdir") + "/RedisLikeApp_cache";
     }
 
     public void setSavePath(String savePath) {
         this.savePath = savePath;
     }
 
-    @Value("${defaultSavePathCacheImpl}")
-    private String savePath;
-    private final long defaultTtlMillis = 60_000;
-
-    private HashMap<String, CacheUnit> cacheHM = new HashMap<>();
-
-    public Integer deleteKeys(List<String> arrKeysToDelete){
+    public Integer deleteKeys(List<String> arrKeysToDelete) {
         Integer deletionCounter = 0;
-        for (String keyToDelete:arrKeysToDelete){
-            CacheUnit deletedValue = cacheHM.remove(keyToDelete);
-            if (deletedValue != null){
+        for (String keyToDelete : arrKeysToDelete) {
+            CacheUnit deletedValue = cache.remove(keyToDelete);
+            if (deletedValue != null) {
                 deletionCounter++;
             }
         }
         return deletionCounter;
     }
-    @Secured("ROLE_ADMIN")
+
     public String putCachingValue(CachedValueDTO cachedValueDTO,
                                   String key,
                                   Long exSeconds,
@@ -51,60 +49,64 @@ public class CacheImplService {
                                   Long unixTimeExpireMilliseconds,
                                   Boolean setKeyIfNotExist,
                                   Boolean setKeyIfExist,
-                                  Boolean keepCurrentTtl){
+                                  Boolean keepCurrentTtl) {
 
         CacheUnit cacheUnit = getCachingValue(key);
 
-        if (setKeyIfExist && cacheUnit==null){
+        if (Boolean.TRUE.equals(setKeyIfExist) && cacheUnit == null) {
             return null;
         }
-        if (setKeyIfNotExist && cacheUnit != null){
+        if (Boolean.TRUE.equals(setKeyIfNotExist) && cacheUnit != null) {
             return null;
         }
-        if (keepCurrentTtl && cacheUnit != null){
+        if (Boolean.TRUE.equals(keepCurrentTtl) && cacheUnit != null) {
             cacheUnit.setValue(cachedValueDTO.getValue());
             return OK;
         }
 
-        CacheUnit freshCacheUnit = new CacheUnit(defineExpireTimeMilliseconds(exSeconds, pxMilliseconds,unixTimeExpireSeconds,unixTimeExpireMilliseconds)
-                ,cachedValueDTO.getValue());
+        CacheUnit freshCacheUnit = new CacheUnit(defineExpireTimeMilliseconds(exSeconds, pxMilliseconds, unixTimeExpireSeconds, unixTimeExpireMilliseconds)
+                , cachedValueDTO.getValue());
 
-        cacheHM.put(key,freshCacheUnit);
+        cache.put(key, freshCacheUnit);
         return OK;
     }
-    private Long defineExpireTimeMilliseconds(Long exSeconds, Long pxMilliseconds, Long unixTimeExpireSeconds, Long unixTimeExpireMilliseconds){
+
+    private Long defineExpireTimeMilliseconds(Long exSeconds, Long pxMilliseconds, Long unixTimeExpireSeconds, Long unixTimeExpireMilliseconds) {
         long currentTimeMillis = System.currentTimeMillis();
-        if (exSeconds != null){
+        if (exSeconds != null) {
             return currentTimeMillis + (exSeconds * 1_000);
         }
 
-        if (pxMilliseconds != null){
+        if (pxMilliseconds != null) {
             return currentTimeMillis + (pxMilliseconds);
         }
 
-        if (unixTimeExpireSeconds != null){
-            return unixTimeExpireSeconds*1000;
+        if (unixTimeExpireSeconds != null) {
+            return unixTimeExpireSeconds * 1000;
         }
-        if  (unixTimeExpireMilliseconds != null){
+        if (unixTimeExpireMilliseconds != null) {
             return unixTimeExpireMilliseconds;
         }
-        return currentTimeMillis + defaultTtlMillis;
+        return currentTimeMillis + DEFAULTTTLMILLIS;
     }
-    public List<String> getAllKeys(){
-        return cacheHM.keySet().stream().collect(Collectors.toList());
+
+    public List<String> getAllKeys() {
+        return cache.keySet().stream().collect(Collectors.toList());
     }
-    public List<String> getKeysByRegExpPattern(String regExpPattern){
+
+    public List<String> getKeysByRegExpPattern(String regExpPattern) {
         Pattern pattern = Pattern.compile(regExpPattern);
-        return cacheHM.keySet().stream().filter(pattern.asPredicate()).collect(Collectors.toList());
+        return cache.keySet().stream().filter(pattern.asPredicate()).collect(Collectors.toList());
     }
-    public CacheUnit getCachingValue(String key){
-        CacheUnit cachedValue = cacheHM.get(key);
-        if (cachedValue==null){
+
+    public CacheUnit getCachingValue(String key) {
+        CacheUnit cachedValue = cache.get(key);
+        if (cachedValue == null) {
             return null;
         }
 
-        if (System.currentTimeMillis() > cachedValue.getExpiresAtMilliseconds()){
-            cacheHM.remove(cachedValue);
+        if (System.currentTimeMillis() > cachedValue.getExpiresAtMilliseconds()) {
+            cache.remove(cachedValue);
             return null;
         }
         return cachedValue;
@@ -112,15 +114,15 @@ public class CacheImplService {
 
     @PostConstruct
     public void loadFromDisk() {
-        File dumpedToDiskCacheHm = new File(this.getSavePath());
-        if (!dumpedToDiskCacheHm.exists()){
+        File dumpedToDiskCache = new File(this.getSavePath());
+        if (!dumpedToDiskCache.exists()) {
             return;
         }
 
         try {
             ObjectInputStream objectInputStream
                     = new ObjectInputStream(new FileInputStream(this.getSavePath()));
-            cacheHM = (HashMap<String, CacheUnit>) objectInputStream.readObject();
+            cache = (HashMap<String, CacheUnit>) objectInputStream.readObject();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -129,13 +131,13 @@ public class CacheImplService {
     }
 
     @PreDestroy
-    public void saveToDisk(){
-        File dumpedToDiskCacheHm = new File(this.getSavePath());
-        if (!dumpedToDiskCacheHm.exists()){
+    public void saveToDisk() {
+        File dumpedToDiskCache = new File(this.getSavePath());
+        if (!dumpedToDiskCache.exists()) {
             this.setSavePath(this.getSavePath());
-            dumpedToDiskCacheHm = new File(this.getSavePath());
+            dumpedToDiskCache = new File(this.getSavePath());
             try {
-                dumpedToDiskCacheHm.createNewFile();
+                dumpedToDiskCache.createNewFile();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -143,7 +145,7 @@ public class CacheImplService {
         try {
             ObjectOutputStream objectOutputStream
                     = new ObjectOutputStream(new FileOutputStream(this.getSavePath()));
-            objectOutputStream.writeObject(cacheHM);
+            objectOutputStream.writeObject(cache);
             objectOutputStream.flush();
             objectOutputStream.close();
         } catch (IOException e) {
